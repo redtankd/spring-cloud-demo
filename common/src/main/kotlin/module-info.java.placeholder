@@ -1,0 +1,7 @@
+module common {
+    exports entity;
+    exports service;
+
+    requires kotlin.stdlib;
+    requires org.apache.ignite.services;
+}
