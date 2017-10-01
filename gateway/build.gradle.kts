@@ -8,8 +8,7 @@ apply {
 }
 
 application {
-//    mainClassName = "cluster.GatewayNodeStartupKt"
-    mainClassName = "Application"
+    mainClassName = "cluster.GatewayNodeStartupKt"
 }
 
 dependencies {

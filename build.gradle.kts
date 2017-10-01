@@ -35,7 +35,14 @@ subprojects {
     dependencyManagement {
         dependencies {
             imports {
-                mavenBom("org.springframework.cloud:spring-cloud-zookeeper-dependencies:1.1.1.RELEASE")
+                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Finchley.BUILD-SNAPSHOT")
+                mavenBom("org.apache.curator:apache-curator:4.0.0")
+            }
+            dependency("org.apache.zookeeper:zookeeper:3.4.9")
+            dependencySet("com.fasterxml.jackson.core:2.9.1") {
+                entry("jackson-databind")
+                entry("jackson-annotations")
+                entry("jackson-core")
             }
             dependencySet("org.apache.ignite:2.2.0") {
                 entry("ignite-core")

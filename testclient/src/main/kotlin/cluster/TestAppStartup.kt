@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
     val context = SpringApplication(TestClientApplication::class.java).apply {
         addInitializers(
                 ApplicationContextInitializer<GenericApplicationContext> {
-                    TestClientApplication.beans().initialize(it)
+//                    TestClientApplication.beans().initialize(it)
                 }
         )
     }.run(*args)

@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: native # native path for configuration
+  application:
+      name: StandaloneGitServerApplication
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          searchLocations: the default is classpath
+server:
+  port: 8888 # The port on which this application runs
+management:
+  security:
+    enabled: false
+logging:
+  level:
+    root: INFO
+
+

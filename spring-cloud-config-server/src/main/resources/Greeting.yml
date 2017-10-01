@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Greeting
+  cloud:
+    zookeeper:
+      discovery:
+        enabled: true
+server:
+  port: 8000
+logging:
+  level:
+    root: INFO
+    org.apache.zookeeper.ClientCnxn: WARN
+management:
+  security:
+    enabled: false
