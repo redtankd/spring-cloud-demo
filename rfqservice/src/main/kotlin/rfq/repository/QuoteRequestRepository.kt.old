@@ -1,4 +1,4 @@
-package repository
+package rfq.repository
 
 import entity.QuoteRequest
 import org.apache.ignite.springdata.repository.IgniteRepository

@@ -25,12 +25,12 @@ import org.apache.ignite.services.ServiceConfiguration;
  * The filter that has to be set in {@link ServiceConfiguration} of Login Service.
  * </p>
  * It will be called at the deployment time of Login Service and will define a subset of the nodes where the
- * service will be deployed or might be deployed in general - Login Service Nodes.
+ * rfq.service will be deployed or might be deployed in general - Login Service Nodes.
  * </p>
  * The same filter will be called every time the cluster topology changes which happens when a new cluster node joins
  * the cluster or an old one leaves it. When it's executed for the new joined node then depending on the filter's
- * execution result the node might be considered as a Login Service Node and an instance of the service may be
- * deployed there depending on how many service instances have to be deployed cluster wide.
+ * execution result the node might be considered as a Login Service Node and an instance of the rfq.service may be
+ * deployed there depending on how many rfq.service instances have to be deployed cluster wide.
  */
 public class GatewayFilter implements IgnitePredicate<ClusterNode>{
     /**

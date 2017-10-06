@@ -19,7 +19,7 @@
  * The package contains classes that have to be added to the classpath of all the nodes - Data Nodes, Service Nodes and
  * even to Client Nodes that execute application's logic.
  *
- * At the moment, the package includes cache and service related filters that are executed for every node that is a part
+ * At the moment, the package includes cache and rfq.service related filters that are executed for every node that is a part
  * of the cluster or will join it.
  */
 package common;

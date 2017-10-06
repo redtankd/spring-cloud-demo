@@ -28,8 +28,8 @@ import org.springframework.boot.SpringBootConfiguration
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.context.support.beans
-import service.Gateway
-import service.RequestForQuoteService
+import rfq.service.Gateway
+import rfq.service.RequestForQuoteService
 import java.util.*
 
 /**
@@ -45,7 +45,7 @@ val TOTAL_VEHICLES_NUMBER = 10
 /**
  * Start up a testing application that connects to the cluster using an Ignite client node.
  * <p>
- * The cluster will fill in the caches with sample data and call the service.
+ * The cluster will fill in the caches with sample data and call the rfq.service.
  *
  * @param args Command line arguments, none required.
  * @throws IgniteException If failed.
@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
     val context = SpringApplication(TestClientApplication::class.java).apply {
         addInitializers(
                 ApplicationContextInitializer<GenericApplicationContext> {
-//                    TestClientApplication.beans().initialize(it)
+                    TestClientApplication.beans().initialize(it)
                 }
         )
     }.run(*args)

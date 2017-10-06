@@ -1,16 +1,19 @@
 spring:
   application:
-    name: Greeting
+    name: GatewayNode
   cloud:
+    config:
+      allowOverride: true
+      overrideNone: true
     zookeeper:
       discovery:
         enabled: true
 server:
-  port: 8000
+  port: 8080
 logging:
   level:
     root: INFO
     org.apache.zookeeper.ClientCnxn: WARN
-management:
-  security:
-    enabled: false
+gateway:
+  property1: 10
+  name: default

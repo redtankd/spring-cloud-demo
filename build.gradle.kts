@@ -50,10 +50,6 @@ subprojects {
                 entry("ignite-spring-data")
                 entry("ignite-indexing")
             }
-            dependencySet("io.vertx:3.5.0.Beta1") {
-                entry("vertx-core")
-                entry("vertx-ignite")
-            }
             dependencySet("org.junit.jupiter:5.0.0") {
                 entry("junit-jupiter-engine")
             }
@@ -69,16 +65,7 @@ subprojects {
 }
 
 //dependencies {
-//    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
-//    compile("org.jetbrains.kotlin:kotlin-reflect")
 //
-//    compile("org.springframework.boot:spring-boot-starter")
-//    compile("org.springframework.data:spring-data-commons:1.13.1.RELEASE")
-//
-//    compile("org.apache.ignite:ignite-core:$igniteVersion")
-//    compile("org.apache.ignite:ignite-spring:$igniteVersion")
-//    compile("org.apache.ignite:ignite-spring-data:$igniteVersion")
-//    compile("org.apache.ignite:ignite-indexing:$igniteVersion")
 //
 //    testCompile("org.springframework.boot:spring-boot-starter-test") {
 //        exclude(module = "junit")

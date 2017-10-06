@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: RequestForQuoteServiceNode
+  cloud:
+    config:
+      allowOverride: true
+      overrideNone: true
+    zookeeper:
+      discovery:
+        enabled: true
+server:
+  port: 8082
+logging:
+  level:
+    root: INFO
+    org.apache.zookeeper.ClientCnxn: WARN
+service:
+  name: default

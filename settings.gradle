@@ -17,12 +17,11 @@ pluginManagement {
     }
 }
 
-rootProject.name = "demo"
+rootProject.name = "cloud-demo"
 
 include 'common'
 include 'datanode'
 include 'rfqservice'
 include 'gateway'
 include 'testclient'
-include 'zookeeper'
-include 'spring-cloud-config-server'
+include 'config-server'

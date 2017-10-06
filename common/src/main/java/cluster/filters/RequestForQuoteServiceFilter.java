@@ -25,12 +25,12 @@ import org.apache.ignite.services.ServiceConfiguration;
  * The filter that has to be set in {@link ServiceConfiguration} of QuoteRequest Service.
  * </p>
  * It will be called at the deployment time of QuoteRequest Service and will define a subset of the nodes where the
- * service will be deployed or might be deployed in general - QuoteRequest Service Nodes.
+ * rfq.service will be deployed or might be deployed in general - QuoteRequest Service Nodes.
  * </p>
  * The same filter will be called every time the cluster topology changes which happens when a new cluster node joins
  * the cluster or an old one leaves it. When it's executed for the new joined node then depending on the filter's
- * execution result the node might be considered as a QuoteRequest Service Node and an instance of the service may be
- * deployed there depending on how many service instances have to be deployed cluster wide.
+ * execution result the node might be considered as a QuoteRequest Service Node and an instance of the rfq.service may be
+ * deployed there depending on how many rfq.service instances have to be deployed cluster wide.
  */
 public class RequestForQuoteServiceFilter implements IgnitePredicate<ClusterNode> {
     /**
@@ -41,7 +41,7 @@ public class RequestForQuoteServiceFilter implements IgnitePredicate<ClusterNode
      * @return {@code true} if the node has to be considered as QuoteRequest Service Node, {@code false} otherwise.
      */
     public boolean apply(ClusterNode node) {
-        Boolean dataNode = node.attribute("vehicle.service.node");
+        Boolean dataNode = node.attribute("vehicle.rfq.service.node");
 
         return dataNode != null && dataNode;
     }
