@@ -29,4 +29,3 @@ datanode is not required and should be merged into rfqservice and gateway.
 
 . leadership election with zookeeper
 . fail over with zookeeper
-. auto negotiation with server port

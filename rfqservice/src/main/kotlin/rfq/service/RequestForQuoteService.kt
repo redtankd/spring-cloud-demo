@@ -13,7 +13,6 @@ import java.util.*
 @ResponseBody
 @RequestMapping("/rfq")
 class RequestForQuoteService(
-        val serviceName: String,
         // The Ignite's native method to read/write to Cache
         val quoteRequestCache: IgniteCache<Int, QuoteRequest>
         // The Spring Data's method to read/write to Cache.
@@ -22,10 +21,10 @@ class RequestForQuoteService(
 ) {
     @PostMapping("/quoteRequest/add/")
     fun addQuoteRequest(@RequestBody quoteRequest: QuoteRequest): Int {
-        println("service \"$serviceName\": incoming Quote Request: $quoteRequest")
+        println("service: incoming Quote Request: $quoteRequest")
 
         val quoteRequestId = Random().nextInt()
-        println("service \"$serviceName\": incoming Quote Request: id = $quoteRequestId")
+        println("service: incoming Quote Request: id = $quoteRequestId")
 
         quoteRequestCache.put(quoteRequestId, quoteRequest)
 

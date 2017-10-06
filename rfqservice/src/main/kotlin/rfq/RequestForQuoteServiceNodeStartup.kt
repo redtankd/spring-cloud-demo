@@ -29,12 +29,16 @@ import org.apache.ignite.configuration.IgniteConfiguration
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.SpringBootConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.web.reactive.server.ConfigurableReactiveWebServerFactory
+import org.springframework.boot.web.server.WebServerFactoryCustomizer
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.context.support.beans
+import org.springframework.util.SocketUtils
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.router
@@ -70,7 +74,16 @@ class RequestForQuoteServiceNode {
 
             bean<IgniteCache<Int, QuoteRequest>> { ref<Ignite>().cache("QuoteRequest") }
 
-            bean { RequestForQuoteService(ref<ServiceConfig>().name, ref()) }
+            bean { RequestForQuoteService(ref()) }
+
+            bean {
+                val serverProperties = ref<ServerProperties>()
+                val config = ref<ServiceConfig>()
+                val port = if (serverProperties.port == 0) SocketUtils.findAvailableTcpPort(config.server.port.min, config.server.port.max) else serverProperties.port
+                return@bean WebServerFactoryCustomizer<ConfigurableReactiveWebServerFactory> {
+                    it.setPort(port)
+                }
+            }
 
             bean {
                 router {
@@ -132,5 +145,16 @@ private fun igniteBean(): IgniteSpringBean {
 
 @ConfigurationProperties(prefix = "service")
 class ServiceConfig {
-    var name: String = ""
+
+    val server = Server()
+
+    class Server {
+
+        val port = Port()
+
+        class Port {
+            var min: Int = 0
+            var max: Int = 0
+        }
+    }
 }
