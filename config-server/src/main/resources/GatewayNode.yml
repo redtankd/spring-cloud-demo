@@ -8,12 +8,20 @@ spring:
     zookeeper:
       discovery:
         enabled: true
+
 server:
   port: 8080
+
+endpoints:
+  default.web.enabled: true
+  health.enabled: true
+  env.enabled: true
+
 logging:
   level:
     root: INFO
     org.apache.zookeeper.ClientCnxn: WARN
+
 gateway:
   property1: 10
   name: default

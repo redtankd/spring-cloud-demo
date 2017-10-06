@@ -23,6 +23,7 @@ import org.apache.ignite.Ignite
 import org.apache.ignite.IgniteCache
 import org.apache.ignite.IgniteException
 import org.apache.ignite.IgniteSpringBean
+import org.apache.ignite.cache.CacheMode
 import org.apache.ignite.configuration.CacheConfiguration
 import org.apache.ignite.configuration.IgniteConfiguration
 import org.springframework.boot.SpringApplication
@@ -96,7 +97,7 @@ private fun igniteBean(): IgniteSpringBean {
     // Ignite configuration with all defaults
     // and enabled p2p deployment and enabled events.
     val igniteConfig = IgniteConfiguration().apply {
-        isPeerClassLoadingEnabled = true
+        isPeerClassLoadingEnabled = false
 
         /*
                Labeling QuoteRequest Service nodes with special attribute.
@@ -118,6 +119,8 @@ private fun igniteBean(): IgniteSpringBean {
                             node map.
                          */
                     nodeFilter = RequestForQuoteServiceFilter()
+                    cacheMode = CacheMode.PARTITIONED
+                    backups = 1
                 }
         )
 

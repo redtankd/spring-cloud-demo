@@ -10,11 +10,11 @@ datanode is not required and should be merged into rfqservice and gateway.
 
 == rfqservice
 
-. Cache is not backup.
-. How every node's incoming queue fail over
+. How incoming queue fail over
 . Outbound message's route management
 . Inbound message should be FIX DTO, so RESTFUL style is for query.
-. Most actuator restful path is not right.
+. Flux
+. How to decide the primary cache for a key-value
 
 == gateway
 

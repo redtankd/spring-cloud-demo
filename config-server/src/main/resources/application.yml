@@ -8,13 +8,15 @@ spring:
 #      server:
 #        native:
 #          searchLocations: the default is classpath
+
 server:
   port: 8888 # The port on which this application runs
-management:
-  security:
-    enabled: false
-logging:
-  level:
-    root: INFO
 
+# see spring-boot's reference: Appendix A. Common application properties
+endpoints:
+  default.web.enabled: true
+  health.enabled: true
+  env.enabled: true
 
+logging.level:
+  root: INFO
