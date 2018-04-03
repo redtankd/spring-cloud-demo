@@ -1,5 +1,0 @@
-#The name of the application
-spring.application.name: GatewayNode
-
-#The URI of your Spring Cloud Config Server
-spring.cloud.config.uri: http://localhost:8888

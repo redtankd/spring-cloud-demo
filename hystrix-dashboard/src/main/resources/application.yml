@@ -1,0 +1,35 @@
+spring.application.name: HystrixDashboard
+
+server.port: 7001
+
+# Hystrix Dashboard read metrics in three ways
+# 1. read through /hystrix.stream directly
+# 2. Turbine, read through /turbine.stream which pulls metrics from /hystrix.stream
+# 3. Turbine Stream, Hystrix commands push metrics to Turbine
+
+# Turbine is an application that aggregates all of the relevant
+# /hystrix.stream endpoints into a combined /turbine.stream
+# for use in the Hystrix Dashboard.
+
+turbine:
+  # services to monitor, by looking up in Eureka
+  appConfig: HelloService
+  # the default cluster
+  clusterNameExpression: "'default'"
+
+# Having spring-cloud-starter-netflix-eureka-client on the classpath
+# makes the app into both a Eureka “instance” (that is, it registers itself)
+# and a “client” (it can query the registry to locate other services).
+# The instance behaviour is driven by eureka.instance.* configuration keys,
+# but the defaults are fine if you ensure that your application has a value
+# for spring.application.name (this is the default for the Eureka service ID or VIP).
+
+# See EurekaInstanceConfigBean and EurekaClientConfigBean for more details
+# on the configurable options.
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+

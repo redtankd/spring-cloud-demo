@@ -4,12 +4,11 @@ plugins {
 }
 
 application {
-    mainClassName = "app.GatewayKt"
+    mainClassName = "app.EurekaServerKt"
 }
 
 dependencies {
     "org.springframework.cloud:spring-cloud".let {
-        implementation("$it-starter-gateway")
-        implementation("$it-starter-netflix-eureka-client")
+        implementation("$it-starter-netflix-eureka-server")
     }
 }

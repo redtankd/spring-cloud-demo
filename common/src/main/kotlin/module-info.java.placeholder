@@ -1,7 +1,0 @@
-module common {
-    exports entity;
-    exports rfq.service;
-
-    requires kotlin.stdlib;
-    requires org.apache.ignite.services;
-}

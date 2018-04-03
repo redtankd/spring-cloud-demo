@@ -1,6 +1,0 @@
-module common {
-    requires kotlin.stdlib;
-    requires org.apache.ignite;
-    requires org.springframework.boot;
-    requires org.springframework.boot.autoconfigure;
-}

@@ -4,12 +4,12 @@ plugins {
 }
 
 application {
-    mainClassName = "app.GatewayKt"
+    mainClassName = "app.ZuulKt"
 }
 
 dependencies {
     "org.springframework.cloud:spring-cloud".let {
-        implementation("$it-starter-gateway")
+        implementation("$it-starter-netflix-zuul")
         implementation("$it-starter-netflix-eureka-client")
     }
 }

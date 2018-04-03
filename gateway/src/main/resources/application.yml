@@ -1,0 +1,23 @@
+spring.application.name: gateway
+
+server.port: 8081
+
+spring:
+  cloud:
+    gateway:
+      locator:
+        enabled: true
+      routes:
+      - id: helloservice
+        uri: lb://helloservice
+        order: 8000
+        predicates:
+        - Path=/helloservice
+        filters:
+        - StripPrefix=1
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
