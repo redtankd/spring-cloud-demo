@@ -1,0 +1,22 @@
+spring.application.name: Gateway
+
+server.port: 8081
+
+spring.cloud.gateway:
+  locator:
+    enabled: true
+  routes:
+    - id: helloservice-ws
+      uri: lb:ws://helloservice/ws
+      order: 899
+      predicates:
+        - Path=/hello/ws
+      filters:
+        - StripPrefix=1
+    - id: helloservice
+      uri: lb://helloservice
+      order: 900
+      predicates:
+        - Path=/hello/**
+      filters:
+        - StripPrefix=1

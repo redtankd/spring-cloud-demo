@@ -1,0 +1,24 @@
+spring.application.name: ConfigServer
+
+spring.profiles.active: native # native path for configuration
+
+server:
+  port: 8888 # The port on which this application runs
+
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          # the default is classpath
+          # Absolute path is required for filesystem watcher
+          searchLocations: file:/Users/redtank/dev/git/github/project-cloud/config-repo
+    bus:
+      enabled: true
+
+management.endpoints.web.exposure.include: health, info, env
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

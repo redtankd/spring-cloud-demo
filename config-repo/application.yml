@@ -1,0 +1,27 @@
+# For a Spring Boot Actuator application
+# the endpoints' root path is /actuator
+# /health and /info is default
+# /env to update the Environment and rebind @ConfigurationProperties and log levels.
+# /refresh to re-load the boot strap context and refresh the @RefreshScope beans.
+# /restart to close the ApplicationContext and restart it (disabled by default).
+# /pause and /resume for calling the Lifecycle methods (stop() and start() on the ApplicationContext).
+# "*" expose everything
+management.endpoints.web.exposure.include: hystrix.stream, bus-refresh, refresh, routes, filters, info, health, env
+
+endpoints.restart.enabled: true # it doesn't work
+
+spring.cloud.config:
+  allowOverride: true
+  overrideNone: true
+  overrideSystemProperties: false
+
+spring.cloud.bus.enabled: true
+
+spring:
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+test.bus.refresh: Ok! okhjhjdsfgsdsfsf

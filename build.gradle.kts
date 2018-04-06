@@ -9,15 +9,14 @@ plugins {
     kotlin("plugin.spring") version "1.2.31" apply false
 
     // uncomment settings.gradle.kts if milestone versions is used
-    id("org.springframework.boot") version "2.0.0.RELEASE" apply false
+    id("org.springframework.boot") version "2.0.1.RELEASE" apply false
 }
 
-subprojects {
+subprojects{
     apply {
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
         plugin("io.spring.dependency-management")
-        //plugin("org.springframework.boot")
     }
 
     group = "org.redtank.demo"
@@ -37,7 +36,7 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jre8"))
-        
+
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
     }
@@ -51,7 +50,7 @@ subprojects {
                 //   ch.qos.logback
                 //   org.jetbrains.kotlin, which's version is overridden
                 // TODO: the same version number as in plugins {}
-                mavenBom("org.springframework.boot:spring-boot-dependencies:2.0.0.RELEASE") {
+                mavenBom("org.springframework.boot:spring-boot-dependencies:2.0.1.RELEASE") {
                     bomProperty("kotlin.version", "1.2.31")
                 }
 

@@ -22,12 +22,16 @@ rootProject.name = "cloud-demo"
 // service discovery
 include("eureka-server")
 
+// config
+include("config-server")
+
 // gateway and proxy
 include("gateway")
 include("zuul")
 
 // metric
 include("hystrix-dashboard")
+include("zipkin-server")
 
 // service
 include("hello-service")
