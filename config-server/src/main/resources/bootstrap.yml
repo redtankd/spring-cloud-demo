@@ -12,7 +12,7 @@ spring:
         native:
           # the default is classpath
           # Absolute path is required for filesystem watcher
-          searchLocations: file:/Users/redtank/dev/git/github/project-cloud/config-repo
+          searchLocations: file:${user.home}/dev/git/github/project-cloud/config-repo
     bus:
       enabled: true
 

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.context.config.annotation.RefreshScope
+import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import org.springframework.core.env.Environment
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +20,11 @@ import org.springframework.web.reactive.socket.WebSocketSession
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.cloud.openfeign.FeignClient
+
+
 
 
 fun main(args: Array<String>) {
@@ -29,6 +35,7 @@ fun main(args: Array<String>) {
 
 @SpringBootApplication
 @EnableCircuitBreaker
+@EnableFeignClients
 @RestController
 @RefreshScope
 class Application {
@@ -36,14 +43,17 @@ class Application {
     @Autowired
     lateinit var environment: Environment
 
-
     @Value("\${test.bus.refresh}")
     lateinit var refresh: String
+
+    @Autowired
+    lateinit var helloSubClient: HelloSubClient
 
     @RequestMapping("/")
     fun home(): String {
         val port = environment.getProperty("local.server.port")
-        return "Hello world at $port with $refresh"
+
+        return helloSubClient.helloMessage(port) + " HelloService with $refresh."
     }
 
     @HystrixCommand(fallbackMethod = "error")
@@ -87,4 +97,12 @@ class MyWebSocketHandler : WebSocketHandler {
                         )
         )
     }
+}
+
+@FeignClient("HelloSubService")
+interface HelloSubClient {
+
+    @RequestMapping(method = [RequestMethod.GET], value = "/{helloPort}")
+    fun helloMessage(@PathVariable("helloPort") helloPort: String): String
+
 }

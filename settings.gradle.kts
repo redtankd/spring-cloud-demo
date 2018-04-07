@@ -17,21 +17,22 @@ pluginManagement {
     }
 }
 
-rootProject.name = "cloud-demo"
+rootProject.name = "spring-cloud-demo"
 
 // service discovery
 include("eureka-server")
 
-// config
+// distributed configuration
 include("config-server")
 
-// gateway and proxy
+// gateway and proxy and filter
 include("gateway")
 include("zuul")
+
+// service
+include("hello-service")
+include("hello-sub-service")
 
 // metric
 include("hystrix-dashboard")
 include("zipkin-server")
-
-// service
-include("hello-service")

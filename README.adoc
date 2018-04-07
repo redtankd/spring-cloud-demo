@@ -7,4 +7,3 @@ RABBIT_URI=amqp://guest:guest@127.0.0.1:5672 java -jar zipkin-server/zipkin.jar
 
 . remote refresh doesn't work because of a bug in spring cloud bus
 . config's searchLocations is a fixed local path
-. only hello-service

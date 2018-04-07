@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClassName = "app.HelloServiceKt"
+    mainClassName = "app.HelloSubServiceKt"
 }
 
 dependencies {
@@ -16,8 +16,6 @@ dependencies {
     }
 
     "org.springframework.cloud:spring-cloud".let {
-        implementation("$it-starter-openfeign")
-
         implementation("$it-starter-netflix-eureka-client")
         implementation("$it-starter-config")
         implementation("$it-starter-bus-amqp")
