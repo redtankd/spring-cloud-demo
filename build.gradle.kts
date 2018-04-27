@@ -1,22 +1,19 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-//TODO: maybe variables is support in plugins {} someday
+// see settings.gradle
 plugins {
     java // dependencies {} require
     id("io.spring.dependency-management") version "1.0.4.RELEASE"
 
-    kotlin("jvm")           version "1.2.31" apply false
-    kotlin("plugin.spring") version "1.2.31" apply false
-
-    // uncomment settings.gradle.kts if milestone versions is used
-    id("org.springframework.boot") version "2.0.1.RELEASE" apply false
+    kotlin("jvm") apply false
+    kotlin("plugin.spring") apply false
 }
 
 subprojects{
     apply {
+        plugin("io.spring.dependency-management")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
-        plugin("io.spring.dependency-management")
     }
 
     group = "org.redtank.demo"
@@ -35,7 +32,7 @@ subprojects{
     }
 
     dependencies {
-        implementation(kotlin("stdlib-jre8"))
+        implementation(kotlin("stdlib-jdk8"))
 
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -48,10 +45,10 @@ subprojects{
                 //   com.fasterxml.jackson
                 //   org.junit.jupiter
                 //   ch.qos.logback
-                //   org.jetbrains.kotlin, which's version is overridden
-                // TODO: the same version number as in plugins {}
-                mavenBom("org.springframework.boot:spring-boot-dependencies:2.0.1.RELEASE") {
-                    bomProperty("kotlin.version", "1.2.31")
+                val springbootVersion: String by project
+                val kotlinVersion: String by project
+                mavenBom("org.springframework.boot:spring-boot-dependencies:${springbootVersion}") {
+                    bomProperty("kotlin.version", "$kotlinVersion")
                 }
 
                 // Dependencies imported by spring-cloud automatically:
