@@ -1,0 +1,43 @@
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: hello-service
+#   labels:
+#     app: hello-service
+# spec:
+#   ports:
+#     - port: 9001
+#       targetPort: 9001
+#       name: hello-service
+#   selector:
+#     app: hello-service
+#   type: LoadBalancer
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-service
+  labels:
+    app: hello-service
+spec:
+  selector:
+    matchLabels:
+      app: hello-service
+  template:
+    metadata:
+      labels:
+        app: hello-service
+    spec:
+      containers:
+        - name: hello-service
+          image: org.redtank.springcloud/hello-service:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 9001
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 9001
+      initContainers:
+        - name: init-config-server
+          image: byrnedo/alpine-curl
+          command: ['sh', '-c', 'until [ "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://config-server:8888/actuator/info) ];  do echo waiting for config-server; sleep 2; done']

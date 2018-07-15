@@ -1,9 +1,19 @@
 spring.application.name: ConfigServer
 
-spring.profiles.active: native # native path for configuration
-
 server:
   port: 8888 # The port on which this application runs
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+
+############################################
+# spring cloud config
+
+spring.profiles.active: native # native path for configuration
 
 spring:
   cloud:
@@ -12,13 +22,19 @@ spring:
         native:
           # the default is classpath
           # Absolute path is required for filesystem watcher
-          searchLocations: file:${user.home}/dev/git/github/project-cloud/config-repo
-    bus:
-      enabled: true
+          searchLocations: file:${CONFIG_REPO_DIR}
+
+############################################
+# spring cloud bus
+
+spring.cloud.bus.enabled: true
+spring.rabbitmq:
+  host: rabbitmq-server
+  port: 5672
+  username: guest
+  password: guest
+
+############################################
+# For a Spring Boot Actuator application
 
 management.endpoints.web.exposure.include: health, info, env
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/

@@ -5,7 +5,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if ("org.springframework.boot" == requested.id.toString()) {
-                useModule("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
+                useVersion(springbootVersion)
             }
             if (requested.id.toString().startsWith("org.jetbrains.kotlin")) {
                 useVersion(kotlinVersion)
@@ -39,4 +39,3 @@ include("hello-sub-service")
 
 // metric
 include("hystrix-dashboard")
-include("zipkin-server")

@@ -1,0 +1,42 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: config-server
+  labels:
+    app: config-server
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+      name: config-server
+  selector:
+    app: config-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+  labels:
+    app: config-server
+spec:
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: org.redtank.springcloud/config-server:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8888
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8888
+      initContainers:
+        - name: init-eureka-server
+          image: byrnedo/alpine-curl
+          command: ['sh', '-c', 'until [ "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://eureka-server:8761/actuator/info) ];  do echo waiting for eureka-server; sleep 2; done']

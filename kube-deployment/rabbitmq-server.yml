@@ -1,0 +1,34 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq-server
+  labels:
+    app: rabbitmq-server
+spec:
+  ports:
+    - port: 5672
+      targetPort: 5672
+      name: rabbitmq-server
+  selector:
+    app: rabbitmq-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-server
+  labels:
+    app: rabbitmq-server
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq-server
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-server
+    spec:
+      containers:
+      - name: rabbitmq-server
+        image: rabbitmq
+        ports:
+        - containerPort: 5672

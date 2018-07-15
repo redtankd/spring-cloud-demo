@@ -1,9 +1,40 @@
 = A Demo for Spring Cloud
 
+== Hostname
+
+Provided by Kubernete or /etc/hosts
+
+. Eureka Server's hostname: `eureka-server`
+. Zipkin Server's hostname: `zipkin-server`
+. RabbitMQ's      hostname: `rabbitmq-server`
+
+== Environment Variables
+
+. Config Server's spring.cloud.config.server.native.searchLocations.
+
+== Eureka
+
+if no dns server, ip address must be registered to eureka server.
+
+. `eureka.instance.preferIpAddress: true`
+
+== Hystrix Dashboard
+
+the input's url
+
+`http://localhost:7001/turbine.stream`
+
+the stream is from
+
+`http://localhost:8081/hello/wrong`
+
 == zipkin + rabbitmq
-RABBIT_URI=amqp://guest:guest@127.0.0.1:5672 java -jar zipkin-server/zipkin.jar
+
+now the sender is web.
+
+`RABBIT_URI=amqp://guest:guest@127.0.0.1:5672 java -jar zipkin-server/zipkin.jar`
 
 == problems
 
 . remote refresh doesn't work because of a bug in spring cloud bus
-. config's searchLocations is a fixed local path
+

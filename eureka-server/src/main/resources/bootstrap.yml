@@ -1,3 +1,8 @@
+spring.application.name: EurekaServer
+
+server:
+  port: 8761
+
 # The Eureka server does not have a backend store, but the service instances
 # in the registry all have to send heartbeats to keep their registrations
 # up to date (so this can be done in memory). Clients also have an in-memory cache
@@ -15,14 +20,10 @@
 # so that it does not keep trying and failing to reach its peers. The following example
 # shows how to switch off the client-side behavior:
 
-spring.application.name: EurekaServer
-
-server:
-  port: 8761
-
 eureka:
   instance:
-    hostname: localhost
+    hostname: eureka-server
+    preferIpAddress: true
   client:
     registerWithEureka: false
     fetchRegistry: false

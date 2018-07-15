@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-sub-service
+  labels:
+    app: hello-sub-service
+spec:
+  selector:
+    matchLabels:
+      app: hello-sub-service
+  template:
+    metadata:
+      labels:
+        app: hello-sub-service
+    spec:
+      containers:
+        - name: hello-sub-service
+          image: org.redtank.springcloud/hello-sub-service:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 9011
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 9011
+      initContainers:
+        - name: init-config-server
+          image: byrnedo/alpine-curl
+          command: ['sh', '-c', 'until [ "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://config-server:8888/actuator/info) ];  do echo waiting for config-server; sleep 2; done']

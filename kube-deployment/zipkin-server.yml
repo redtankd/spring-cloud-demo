@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: zipkin-server
+  labels:
+    app: zipkin-server
+spec:
+  ports:
+    - port: 9411
+      targetPort: 9411
+      name: zipkin-server
+  selector:
+    app: zipkin-server
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-server
+  labels:
+    app: zipkin-server
+spec:
+  selector:
+    matchLabels:
+      app: zipkin-server
+  template:
+    metadata:
+      labels:
+        app: zipkin-server
+    spec:
+      containers:
+      - name: zipkin-server
+        image: openzipkin/zipkin
+        ports:
+        - containerPort: 9411

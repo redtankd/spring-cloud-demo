@@ -1,0 +1,43 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hystrix-dashboard
+  labels:
+    app: hystrix-dashboard
+spec:
+  ports:
+    - port: 7001
+      targetPort: 7001
+      name: hystrix-dashboard
+  selector:
+    app: hystrix-dashboard
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hystrix-dashboard
+  labels:
+    app: hystrix-dashboard
+spec:
+  selector:
+    matchLabels:
+      app: hystrix-dashboard
+  template:
+    metadata:
+      labels:
+        app: hystrix-dashboard
+    spec:
+      containers:
+      - name: hystrix-dashboard
+        image: org.redtank.springcloud/hystrix-dashboard:0.0.1-SNAPSHOT
+        ports:
+          - containerPort: 7001
+        readinessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 7001
+      initContainers:
+        - name: init-config-server
+          image: byrnedo/alpine-curl
+          command: ['sh', '-c', 'until [ "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://config-server:8888/actuator/info) ];  do echo waiting for config-server; sleep 2; done']

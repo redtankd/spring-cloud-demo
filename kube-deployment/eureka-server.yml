@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: eureka-server
+  labels:
+    app: eureka-server
+spec:
+  ports:
+    - port: 8761
+      targetPort: 8761
+      name: eureka-server
+  selector:
+    app: eureka-server
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server
+  labels:
+    app: eureka-server
+spec:
+  selector:
+    matchLabels:
+      app: eureka-server
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+      - name: eureka-server
+        image: org.redtank.springcloud/eureka-server:0.0.1-SNAPSHOT
+        ports:
+          - containerPort: 8761
+        readinessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8761

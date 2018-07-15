@@ -1,3 +1,37 @@
+eureka.instance.preferIpAddress: true
+
+spring.cloud.config:
+  allowOverride: true
+  overrideNone: true
+  overrideSystemProperties: false
+
+############################################
+# spring cloud bus
+
+spring.cloud.bus.enabled: true
+spring.rabbitmq:
+  host: rabbitmq-server
+  port: 5672
+  username: guest
+  password: guest
+
+############################################
+# spring cloud sleuth
+
+spring.zipkin:
+  base-url: http://zipkin-server:9411
+  # If you have web, rabbit, or kafka together on the classpath, 
+  # you might need to pick the means by which you would like to 
+  # send spans to zipkin. To do so, set web, rabbit, or kafka to 
+  # the spring.zipkin.sender.type property.
+  #
+  # In this demo, rabbit is bring in by Spring Cloud Bus. But the
+  # web sender is chosen.
+  sender.type: web
+
+spring.sleuth.sampler.percentage: 1.0
+
+############################################
 # For a Spring Boot Actuator application
 # the endpoints' root path is /actuator
 # /health and /info is default
@@ -6,22 +40,9 @@
 # /restart to close the ApplicationContext and restart it (disabled by default).
 # /pause and /resume for calling the Lifecycle methods (stop() and start() on the ApplicationContext).
 # "*" expose everything
+
 management.endpoints.web.exposure.include: hystrix.stream, bus-refresh, refresh, routes, filters, info, health, env
 
 endpoints.restart.enabled: true # it doesn't work
-
-spring.cloud.config:
-  allowOverride: true
-  overrideNone: true
-  overrideSystemProperties: false
-
-spring.cloud.bus.enabled: true
-
-spring:
-  zipkin:
-    base-url: http://localhost:9411
-  sleuth:
-    sampler:
-      percentage: 1.0
 
 test.bus.refresh: Ok! okhjhjdsfgsdsfsf

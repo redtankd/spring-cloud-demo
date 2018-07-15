@@ -1,17 +1,10 @@
-plugins {
-    application
-    id("org.springframework.boot")
-}
+import com.palantir.gradle.docker.DockerExtension
 
-application {
-    mainClassName = "app.ConfigServerKt"
+configure<DockerExtension> {
+    files("${project.parent?.projectDir}/config-repo")
 }
 
 dependencies {
-    "org.springframework.boot:spring-boot".let {
-        implementation("$it-starter-actuator")
-    }
-
     "org.springframework.cloud:spring-cloud".let {
         implementation("$it-config-server")
         implementation("$it-config-monitor")

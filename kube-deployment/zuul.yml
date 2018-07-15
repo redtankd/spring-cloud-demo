@@ -1,0 +1,43 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: zuul
+  labels:
+    app: zuul
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: zuul
+  selector:
+    app: zuul
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul
+  labels:
+    app: zuul
+spec:
+  selector:
+    matchLabels:
+      app: zuul
+  template:
+    metadata:
+      labels:
+        app: zuul
+    spec:
+      containers:
+        - name: zuul
+          image: org.redtank.springcloud/zuul:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8080
+      initContainers:
+        - name: init-config-server
+          image: byrnedo/alpine-curl
+          command: ['sh', '-c', 'until [ "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://config-server:8888/actuator/info) ];  do echo waiting for config-server; sleep 2; done']

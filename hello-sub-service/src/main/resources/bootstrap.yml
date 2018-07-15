@@ -9,7 +9,15 @@ spring.application.name: HelloSubService
 
 # See EurekaInstanceConfigBean and EurekaClientConfigBean for more details
 # on the configurable options.
-eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
 
 # discover the config server through Eureka server
-spring.cloud.config.discovery.enabled: true
+spring.cloud.config:
+  discovery.enabled: true
+  fail-fast: true
+#  request-read-timeout: 1000
+#  retry:
+#    initialInterval: 1000 # ms
+#    multiplier: 1.1
+#    maxInterval: 2000     # ms
+#    maxAttempts: 6
