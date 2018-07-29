@@ -6,32 +6,40 @@ image:https://travis-ci.org/redtankd/spring-cloud-demo.svg?branch=master["Build 
 
 start in order
 
-``sh
+```sh
 docker-compose up -d rabbitmq-server
 docker-compose up -d config-server
 # waiting for config server
 docker-compose up -d --scale hello-sub-service=2 hello-sub-service
 docker-compose up -d --scale hello-service=2 hello-service
 docker-compose up -d gateway
-``
+```
 
 == Kubenetes
 
-``
+```
+kubectl apply -f kube-deployment/rabbitmq-server.yml
 kubectl apply -f kube-deployment/eureka-server.yml
 kubectl apply -f kube-deployment/config-server.yml
 kubectl apply -f kube-deployment/hello-sub-service.yml
 kubectl apply -f kube-deployment/hello-service.yml
 kubectl apply -f kube-deployment/gateway.yml
-``
+```
 
-``
+```
+kubectl delete -f kube-deployment/rabbitmq-server.yml
 kubectl delete -f kube-deployment/eureka-server.yml
 kubectl delete -f kube-deployment/config-server.yml
 kubectl delete -f kube-deployment/hello-service.yml
 kubectl delete -f kube-deployment/hello-sub-service.yml
 kubectl delete -f kube-deployment/gateway.yml
-``
+```
+
+```
+kubectl get all
+kubectl delete deployment --all
+kubectl delete pod --all
+```
 
 == Required hostnames
 
