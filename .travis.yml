@@ -1,0 +1,30 @@
+sudo: required
+
+services:
+  - docker
+
+language: java
+
+jdk:
+  - openjdk8
+
+before_install:
+  - ./gradlew --version
+  - docker --version
+  - docker-compose --version
+
+script:  
+  - ./gradlew check
+  - ./gradlew docker
+  - docker-compose up -d rabbitmq-server
+  - docker-compose up -d config-server
+  - sleep 20
+  - docker-compose up -d --scale hello-sub-service=2 hello-sub-service
+  - docker-compose up -d --scale hello-service=2 hello-service
+  - docker-compose up -d gateway
+  - sleep 100
+  - [ ( "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://localhost:8081/hello) ) -o \
+      ( "200" -eq $(curl --write-out %{http_code} --silent --output /dev/null http://localhost:8081/hello) ) ]
+
+after_success:
+  - docker-compose down

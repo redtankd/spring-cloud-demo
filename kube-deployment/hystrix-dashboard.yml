@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: hystrix-dashboard
-        image: org.redtank.springcloud/hystrix-dashboard:0.0.1-SNAPSHOT
+        image: redtankd/hystrix-dashboard:0.0.1-SNAPSHOT
         ports:
           - containerPort: 7001
         readinessProbe:

@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: org.redtank.springcloud/gateway:0.0.1-SNAPSHOT
+          image: redtankd/gateway:0.0.1-SNAPSHOT
           ports:
             - containerPort: 8081
           readinessProbe:

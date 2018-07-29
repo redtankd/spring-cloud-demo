@@ -7,7 +7,8 @@ WORKDIR /root
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
 
-COPY *.yml ./config-repo/
+ARG LOCAL_CONFIG_REPO_DIR
+COPY ${LOCAL_CONFIG_REPO_DIR}/*.yml ./config-repo/
 
 ENV CONFIG_REPO_DIR /root/config-repo
 

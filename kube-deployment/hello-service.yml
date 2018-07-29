@@ -23,6 +23,7 @@ spec:
   selector:
     matchLabels:
       app: hello-service
+  replicas: 2
   template:
     metadata:
       labels:
@@ -30,7 +31,7 @@ spec:
     spec:
       containers:
         - name: hello-service
-          image: org.redtank.springcloud/hello-service:0.0.1-SNAPSHOT
+          image: redtankd/hello-service:0.0.1-SNAPSHOT
           ports:
             - containerPort: 9001
           readinessProbe:

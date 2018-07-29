@@ -1,7 +1,7 @@
 import com.palantir.gradle.docker.DockerExtension
 
 configure<DockerExtension> {
-    files("${project.parent?.projectDir}/config-repo")
+    files("${project.projectDir}/config-repo")
 }
 
 dependencies {

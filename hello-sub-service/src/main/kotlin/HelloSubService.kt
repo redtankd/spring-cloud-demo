@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.net.InetAddress
 
 
 fun main(args: Array<String>) {
@@ -33,10 +34,11 @@ class Application {
     @Value("\${test.bus.refresh}")
     lateinit var refresh: String
 
-    @RequestMapping(method = [RequestMethod.GET], value = "/{helloPort}")
-    fun helloMessage(@PathVariable("helloPort") helloPort: String): String {
-        val port = environment.getProperty("local.server.port")
-        return "HelloSubServer at $port. HelloServer at $helloPort. HelloSubServer with $refresh."
+    @RequestMapping(method = [RequestMethod.GET], value = "/{helloServiceAddr}")
+    fun helloMessage(@PathVariable("helloServiceAddr") helloServiceAddr: String): String {
+        val addr = InetAddress.getLocalHost()
+
+        return "HelloSubService at ${addr.hostAddress} called by HelloService at $helloServiceAddr. HelloSubService with $refresh."
     }
 
 }

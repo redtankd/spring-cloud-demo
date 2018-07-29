@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: zuul
-          image: org.redtank.springcloud/zuul:0.0.1-SNAPSHOT
+          image: redtankd/zuul:0.0.1-SNAPSHOT
           ports:
             - containerPort: 8080
           readinessProbe:

@@ -1,16 +1,49 @@
 = A Demo for Spring Cloud
 
-== Hostname
+image:https://travis-ci.org/redtankd/spring-cloud-demo.svg?branch=master["Build Status", link="https://travis-ci.org/redtankd/spring-cloud-demo"]
 
-Provided by Kubernete or /etc/hosts
+== Docker Compose
+
+start in order
+
+``sh
+docker-compose up -d rabbitmq-server
+docker-compose up -d config-server
+# waiting for config server
+docker-compose up -d --scale hello-sub-service=2 hello-sub-service
+docker-compose up -d --scale hello-service=2 hello-service
+docker-compose up -d gateway
+``
+
+== Kubenetes
+
+``
+kubectl apply -f kube-deployment/eureka-server.yml
+kubectl apply -f kube-deployment/config-server.yml
+kubectl apply -f kube-deployment/hello-sub-service.yml
+kubectl apply -f kube-deployment/hello-service.yml
+kubectl apply -f kube-deployment/gateway.yml
+``
+
+``
+kubectl delete -f kube-deployment/eureka-server.yml
+kubectl delete -f kube-deployment/config-server.yml
+kubectl delete -f kube-deployment/hello-service.yml
+kubectl delete -f kube-deployment/hello-sub-service.yml
+kubectl delete -f kube-deployment/gateway.yml
+``
+
+== Required hostnames
+
+Provided by Kubernete or Docker or /etc/hosts (local development).
 
 . Eureka Server's hostname: `eureka-server`
 . Zipkin Server's hostname: `zipkin-server`
 . RabbitMQ's      hostname: `rabbitmq-server`
 
-== Environment Variables
+== Required environment variables
 
-. Config Server's spring.cloud.config.server.native.searchLocations.
+. Config Server bootsrap.yml: spring.cloud.config.server.native.searchLocations
 
 == Eureka
 
@@ -32,7 +65,7 @@ the stream is from
 
 now the sender is web.
 
-`RABBIT_URI=amqp://guest:guest@127.0.0.1:5672 java -jar zipkin-server/zipkin.jar`
+if the sender is rabbitmq, `RABBIT_URI=amqp://guest:guest@127.0.0.1:5672 java -jar zipkin-server/zipkin.jar`
 
 == problems
 

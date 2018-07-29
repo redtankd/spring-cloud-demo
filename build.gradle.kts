@@ -44,8 +44,9 @@ subprojects {
 
         dependsOn(bootJar)
 
-        name = "${project.group}/${bootJar.baseName}:${bootJar.version}"
+        name = "redtankd/${bootJar.baseName}:${bootJar.version}"
 
+        // com.palantir.gradle.docker copys files to a temp dir.
         files("${bootJar.archivePath}")
 
         buildArgs(mapOf(

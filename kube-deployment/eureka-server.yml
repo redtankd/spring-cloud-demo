@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: eureka-server
-        image: org.redtank.springcloud/eureka-server:0.0.1-SNAPSHOT
+        image: redtankd/eureka-server:0.0.1-SNAPSHOT
         ports:
           - containerPort: 8761
         readinessProbe:

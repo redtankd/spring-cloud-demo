@@ -1,0 +1,109 @@
+# the reference: 
+# https://docs.docker.com/compose/compose-file/
+version: "3"
+
+services:
+  # the default network is "spring-cloud-demo_default"
+  # the hostname is the service's name, which is required 
+  # by other services.
+  eureka-server:
+    build: 
+      context: eureka-server
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/eureka-server-${DEMO_VERSION}.jar"
+    image: redtankd/eureka-server:${DEMO_VERSION}
+    # command: python app.py
+    ports:
+     - "8761:8761"
+    # volumes:
+    #  - ./web:/code
+    # environment:
+    #  - DATADOG_HOST=datadog
+    # networks:
+      #- spring-cloud-demo_default
+
+  config-server:
+    build: 
+      context: config-server
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/config-server-${DEMO_VERSION}.jar"
+        LOCAL_CONFIG_REPO_DIR: "./config-repo"
+    image: redtankd/config-server:${DEMO_VERSION}
+    depends_on:
+      - eureka-server
+    # networks:
+      #- spring-cloud-demo_default
+
+  gateway:
+    build: 
+      context: gateway
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/gateway-${DEMO_VERSION}.jar"
+    image: redtankd/gateway:${DEMO_VERSION}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - config-server
+
+  zuul:
+    build: 
+      context: zuul
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/zuul-${DEMO_VERSION}.jar"
+    image: redtankd/zuul:${DEMO_VERSION}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+      - config-server
+
+  hello-service:
+    build: 
+      context: hello-service
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/hello-service-${DEMO_VERSION}.jar"
+    image: redtankd/hello-service:${DEMO_VERSION}
+    depends_on:
+      - eureka-server
+      - config-server
+  
+  hello-sub-service:
+    build: 
+      context: hello-sub-service
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/hello-sub-service-${DEMO_VERSION}.jar"
+    image: redtankd/hello-sub-service:${DEMO_VERSION}
+    depends_on:
+      - eureka-server
+      - config-server
+
+  # the hostname is the service's name, which is required 
+  # by other services.
+  hystrix-dashboard:
+    build: 
+      context: hystrix-dashboard
+      args: 
+        JAR_FILE: "${APP_JAR_PATH}/hystrix-dashboard-${DEMO_VERSION}.jar"
+    image: redtankd/hystrix-dashboard:${DEMO_VERSION}
+    ports:
+      - "7001:7001"
+    depends_on:
+      - eureka-server
+      - config-server
+
+  # the hostname is the service's name, which is required 
+  # by other services.
+  zipkin-server:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+
+  # the hostname is the service's name, which is required 
+  # by other services.
+  rabbitmq-server:
+    image: rabbitmq
+
+# the default network is "spring-cloud-demo_default"
+#networks:
+  #spring-cloud-demo_default:
