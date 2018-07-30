@@ -24,7 +24,7 @@ script:
   - docker-compose up -d --scale hello-service=2 hello-service
   - sleep 30
   - docker-compose up -d gateway
-  - i=0 && until ( test "200" -eq "$(curl --write-out %{http_code} --silent --output /dev/null http://localhost:8081/hello)" ) || ( test "100" -eq "$i" ); do let i=i+1; echo $i - waiting for server up; sleep 10; done && test $i -lt 100
+  - i=0 && until ( test "200" = "$(curl --write-out %{http_code} --silent --output /dev/null http://localhost:8081/hello)" ) || ( test "100" = "$i" ); do let i=i+1; echo $i - waiting for server up; sleep 10; done && test $i -lt 100
 
 after_success:
   - docker-compose down
