@@ -4,10 +4,11 @@ import com.palantir.gradle.docker.DockerExtension
 
 // the version for kotlin and spring-boot is in settings.gradle and gradle.properties.
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.spring")
+    java // implementation and testImplementation requires
+    kotlin("jvm") apply false
+    kotlin("plugin.spring") apply false
 
-    id("io.spring.dependency-management") version "1.0.5.RELEASE"
+    id("io.spring.dependency-management") version "1.0.6.RELEASE"
     id("org.springframework.boot") apply false
 
     id("com.palantir.docker") version "0.20.1" apply false
@@ -59,10 +60,7 @@ subprojects {
 
         "org.springframework.boot:spring-boot".let {
             implementation("$it-starter-actuator")
-            implementation("$it-starter-aop") // for retry connecting config server, eureka-server and config-server don't need
         }
-
-        implementation("org.springframework.retry:spring-retry") // for retry connecting config server, eureka-server and config-server don't need
 
         if (!listOf("eureka-server", "config-server", "hystrix-dashboard").contains(project.name)) {
             "org.springframework.cloud:spring-cloud".let {
@@ -72,6 +70,12 @@ subprojects {
                 implementation("$it-starter-netflix-hystrix")
                 implementation("$it-starter-zipkin")
             }
+        }
+
+        // for retrying to connect to config server
+        if (!listOf("eureka-server", "config-server").contains(project.name)) {
+            implementation("org.springframework.boot:spring-boot-starter-aop")
+            implementation("org.springframework.retry:spring-retry")
         }
 
         testImplementation("org.junit.jupiter:junit-jupiter-api")
@@ -94,7 +98,7 @@ subprojects {
                 // Dependencies imported by spring-cloud automatically:
                 //   org.apache.curator
                 //   org.apache.zookeeper
-                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE")
+                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Finchley.SR1")
             }
 
             dependency("org.javamoney:moneta:1.1")

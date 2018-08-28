@@ -5,7 +5,8 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if ("org.springframework.boot" == requested.id.toString()) {
-                useVersion(springbootVersion)
+                // the spring-boot's milestone version requires
+                useModule("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
             }
             if (requested.id.toString().startsWith("org.jetbrains.kotlin")) {
                 useVersion(kotlinVersion)
@@ -17,7 +18,7 @@ pluginManagement {
         gradlePluginPortal()
         jcenter()
         mavenCentral()
-        maven(url = "https://repo.spring.io/plugins-snapshot/")
+        maven(url = "https://repo.spring.io/milestone/")
     }
 }
 
