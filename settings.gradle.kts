@@ -16,8 +16,8 @@ pluginManagement {
 
     repositories {
         gradlePluginPortal()
-        jcenter()
-        mavenCentral()
+        // jcenter()
+        // mavenCentral()
         maven(url = "https://repo.spring.io/milestone/")
     }
 }
