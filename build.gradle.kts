@@ -2,14 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import com.palantir.gradle.docker.DockerExtension
 
-// the version for kotlin and spring-boot is in settings.gradle and gradle.properties.
 plugins {
     java // implementation and testImplementation requires
-    kotlin("jvm") apply false
+    kotlin("jvm") apply false // the version is in settings.gradle and gradle.properties.
     kotlin("plugin.spring") apply false
 
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
-    id("org.springframework.boot") apply false
+    id("org.springframework.boot") apply false // the version is in settings.gradle and gradle.properties.
 
     id("com.palantir.docker") version "0.20.1" apply false
 }
@@ -98,7 +97,7 @@ subprojects {
                 // Dependencies imported by spring-cloud automatically:
                 //   org.apache.curator
                 //   org.apache.zookeeper
-                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Finchley.SR1")
+                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Greenwich.BUILD-SNAPSHOT")
             }
 
             dependency("org.javamoney:moneta:1.1")
@@ -114,8 +113,8 @@ subprojects {
     }
 
     repositories {
-        jcenter()
         mavenCentral()
+        jcenter()
         maven(url = "https://repo.spring.io/release")
         maven(url = "https://repo.spring.io/milestone")
         maven(url = "https://repo.spring.io/snapshot")
