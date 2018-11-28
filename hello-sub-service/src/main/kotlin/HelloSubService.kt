@@ -34,7 +34,7 @@ class Application {
     @Value("\${test.bus.refresh}")
     lateinit var refresh: String
 
-    @RequestMapping(method = [RequestMethod.GET], value = "/{helloServiceAddr}")
+    @RequestMapping(method = [RequestMethod.GET], value = ["/{helloServiceAddr}"])
     fun helloMessage(@PathVariable("helloServiceAddr") helloServiceAddr: String): String {
         val addr = InetAddress.getLocalHost()
 

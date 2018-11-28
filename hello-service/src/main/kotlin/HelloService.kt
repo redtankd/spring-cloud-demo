@@ -102,7 +102,7 @@ class MyWebSocketHandler : WebSocketHandler {
 @FeignClient("HelloSubService")
 interface HelloSubClient {
 
-    @RequestMapping(method = [RequestMethod.GET], value = "/{helloServiceAddr}")
+    @RequestMapping(method = [RequestMethod.GET], value = ["/{helloServiceAddr}"])
     fun helloMessage(@PathVariable("helloServiceAddr") helloServiceAddr: String): String
 
 }
