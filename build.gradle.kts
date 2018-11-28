@@ -3,12 +3,13 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 import com.palantir.gradle.docker.DockerExtension
 
 plugins {
-    java // implementation and testImplementation requires
-    kotlin("jvm") apply false // the version is in settings.gradle and gradle.properties.
-    kotlin("plugin.spring") apply false
+    java // `implementation` and `testImplementation` require
 
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
-    id("org.springframework.boot") apply false // the version is in settings.gradle and gradle.properties.
+    val kotlinVersion = "1.3.10"
+    kotlin("jvm") version kotlinVersion apply false
+    kotlin("plugin.spring") version kotlinVersion apply false
+
+    id("org.springframework.boot") version "2.1.0.RELEASE" apply false
 
     id("com.palantir.docker") version "0.20.1" apply false
 }
@@ -18,7 +19,6 @@ subprojects {
         plugin("org.jetbrains.kotlin.jvm")           // kotlin("jvm")
         plugin("org.jetbrains.kotlin.plugin.spring") // kotlin("plugin.spring")
 
-        plugin("io.spring.dependency-management")
         plugin("org.springframework.boot")
 
         plugin("com.palantir.docker")
@@ -26,6 +26,9 @@ subprojects {
 
     group = "org.redtank.springcloud"
     version = "0.0.1-SNAPSHOT"
+
+    // --------------------------------------------------
+    // Tasks Configuration
 
     tasks {
         withType<KotlinCompile> {
@@ -54,7 +57,36 @@ subprojects {
         ))
     }
 
+    // --------------------------------------------------
+    // Dependencies Configuration
+
     dependencies {
+        // --------------------------------------------------
+        // Dependencies Management
+
+        implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.0.RELEASE"))
+        implementation(platform("org.springframework.cloud:spring-cloud-dependencies:Greenwich.M3"))
+
+        constraints {
+            val kotlinVersion = "1.3.10"
+            implementation(kotlin("stdlib-jdk8", kotlinVersion))
+            implementation(kotlin("reflect", kotlinVersion))
+
+            implementation("org.javamoney:moneta:1.1")
+            implementation("org.zalando:jackson-datatype-money:1.0.0")
+
+            "org.apache.ignite:ignite".let {
+                val version = "2.6.0"
+                implementation("$it-core:$version")
+                implementation("$it-spring:$version")
+                implementation("$it-spring-data:$version")
+                implementation("$it-indexing:$version")
+            }
+        }
+
+        // --------------------------------------------------
+        // Common Dependencies
+
         implementation(kotlin("stdlib-jdk8"))
 
         "org.springframework.boot:spring-boot".let {
@@ -79,37 +111,6 @@ subprojects {
 
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    }
-
-    dependencyManagement {
-        dependencies {
-            imports {
-                // Dependencies imported by spring-boot automatically:
-                //   com.fasterxml.jackson
-                //   org.junit.jupiter
-                //   ch.qos.logback
-                val springbootVersion: String by project // in gradle.properties
-                val kotlinVersion: String by project    // in gradle.properties
-                mavenBom("org.springframework.boot:spring-boot-dependencies:$springbootVersion") {
-                    bomProperty("kotlin.version", kotlinVersion)
-                }
-
-                // Dependencies imported by spring-cloud automatically:
-                //   org.apache.curator
-                //   org.apache.zookeeper
-                mavenBom("org.springframework.cloud:spring-cloud-dependencies:Greenwich.BUILD-SNAPSHOT")
-            }
-
-            dependency("org.javamoney:moneta:1.1")
-            dependency("org.zalando:jackson-datatype-money:1.0.0")
-
-            dependencySet("org.apache.ignite:2.5.0") {
-                entry("ignite-core")
-                entry("ignite-spring")
-                entry("ignite-spring-data")
-                entry("ignite-indexing")
-            }
-        }
     }
 
     repositories {

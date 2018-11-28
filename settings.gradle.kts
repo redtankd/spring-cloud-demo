@@ -1,23 +1,17 @@
-val springbootVersion: String by settings
-val kotlinVersion: String by settings
-
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
-            if ("org.springframework.boot" == requested.id.toString()) {
-                // the spring-boot's milestone version requires
-                useModule("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
-            }
-            if (requested.id.toString().startsWith("org.jetbrains.kotlin")) {
-                useVersion(kotlinVersion)
+            // the spring-boot's milestone version requires
+            if ("org.springframework.boot" == requested.id.toString()
+                    && !requested.version.toString().endsWith(".RELEASE")
+            ) {
+                useModule("org.springframework.boot:spring-boot-gradle-plugin:${requested.version}")
             }
         }
     }
 
     repositories {
         gradlePluginPortal()
-        // jcenter()
-        // mavenCentral()
         maven(url = "https://repo.spring.io/milestone/")
     }
 }
